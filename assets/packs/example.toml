@@ -1,0 +1,45 @@
+# Example custom icon pack for Ferrite.
+# Copy to ~/.config/ferrite/packs/my-pack.toml and select with:
+#   [icons]
+#   pack = "my-pack"
+# Every key is optional — missing glyphs fall back to the "none" pack (empty),
+# so a custom pack only needs to override the icons you actually use.
+#
+# Logical keys (stable across versions):
+#   cpu, mem, temp
+#   bat_charging, bat_full, bat_high, bat_mid, bat_low, bat_empty
+#   vol_mute, vol_low, vol_mid, vol_high
+#   bri_low, bri_mid, bri_high
+#   wifi_excellent, wifi_good, wifi_fair, wifi_weak, wifi_off, wired
+#   bt_off, bt_on, bt_connected
+#   lang, net_down, net_up
+
+[icons]
+cpu = "CPU "
+mem = "MEM "
+temp = "T:"
+bat_charging = "⚡"
+bat_full = "██"
+bat_high = "▔▔"
+bat_mid = "▔ "
+bat_low = "▁ "
+bat_empty = "  "
+vol_mute = "🔇"
+vol_low = "🔈"
+vol_mid = "🔉"
+vol_high = "🔊"
+bri_low = "🌙"
+bri_mid = "🌤"
+bri_high = "☀️"
+wifi_excellent = "▆"
+wifi_good = "▄"
+wifi_fair = "▃"
+wifi_weak = "▁"
+wifi_off = "✗"
+wired = "≡"
+bt_off = "BT✗"
+bt_on = "BT"
+bt_connected = "BT●"
+lang = "⌨ "
+net_down = "↓"
+net_up = "↑"

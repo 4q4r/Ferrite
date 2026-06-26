@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Ferrite magnet logo">
+  <title>Ferrite — a magnetically attractive status bar</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#181825"/>
+      <stop offset="1" stop-color="#11111b"/>
+    </linearGradient>
+    <linearGradient id="pole" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f38ba8"/>
+      <stop offset="1" stop-color="#d20f39"/>
+    </linearGradient>
+    <linearGradient id="poleHi" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f9e2af" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#f38ba8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#cdd6f4"/>
+      <stop offset="1" stop-color="#9399b2"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="54" fill="url(#bg)"/>
+  <rect x="2" y="2" width="252" height="252" rx="53" fill="none" stroke="#313244" stroke-width="2"/>
+
+  <!-- horseshoe body (red), flat pole faces at the bottom -->
+  <path d="M 84 204 V 124 A 44 44 0 0 1 172 124 V 204"
+        fill="none" stroke="url(#pole)" stroke-width="52"
+        stroke-linecap="butt" stroke-linejoin="round"/>
+  <!-- soft top-left highlight on the red -->
+  <path d="M 84 196 V 124 A 44 44 0 0 1 128 80"
+        fill="none" stroke="url(#poleHi)" stroke-width="52"
+        stroke-linecap="butt" stroke-linejoin="round"/>
+
+  <!-- metal pole faces -->
+  <rect x="58"  y="170" width="52" height="34" rx="9" fill="url(#metal)"/>
+  <rect x="146" y="170" width="52" height="34" rx="9" fill="url(#metal)"/>
+  <line x1="58"  y1="170" x2="110" y2="170" stroke="#45475a" stroke-width="2"/>
+  <line x1="146" y1="170" x2="198" y2="170" stroke="#45475a" stroke-width="2"/>
+
+  <!-- subtle magnetic field arcs in the gap -->
+  <path d="M 112 150 Q 128 140 144 150" fill="none" stroke="#cdd6f4" stroke-width="2.5" stroke-opacity="0.30"/>
+  <path d="M 112 166 Q 128 158 144 166" fill="none" stroke="#cdd6f4" stroke-width="2.5" stroke-opacity="0.18"/>
+
+  <!-- N / S pole marks -->
+  <text x="84"  y="193" font-family="ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700"
+        text-anchor="middle" fill="#11111b">N</text>
+  <text x="172" y="193" font-family="ui-sans-serif,system-ui,sans-serif" font-size="17" font-weight="700"
+        text-anchor="middle" fill="#11111b">S</text>
+</svg>

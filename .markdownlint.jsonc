@@ -1,0 +1,8 @@
+// markdownlint-cli2 configuration.
+// MD013 (line-length, 80 cols) is disabled: this README intentionally keeps
+// long prose sentences, URLs, and inline config/CLI fragments on one line for
+// readability and clean `git diff`s. All other rules (including MD040 fenced
+// code language) remain enabled.
+{
+  "MD013": false
+}

@@ -1,0 +1,137 @@
+# Ferrite — default configuration.
+# Place at ~/.config/ferrite/config.toml (auto-generated on first run if absent).
+# Icon packs live in ~/.config/ferrite/packs/<name>.toml and are selected via
+# [icons].pack. Run `ferrite --print-config` to dump this file to stdout.
+
+[bar]
+render_interval_ms = 250   # how often the bar re-renders (ms). 250 = smooth clock.
+protocol = "i3bar"          # "i3bar" (colors/clicks/pango) | "plain" (text like the old bash)
+markup = "pango"            # "none" | "pango"  (sway supports pango markup)
+# Layout template: {module} placeholders interleaved with arbitrary literal text.
+# The literal text between placeholders IS the separator — so you can put as
+# many *different* separators in one line as you like. Defaults: " " (space)
+# within a group, " | " (pipe) between groups. Remove a {name} to hide its block.
+layout = "{lang} | {cpu} {mem} {temp} {bat} | {net} {vpn} {bt} {vol} {bri} | {packages} {mpris} {date}"
+default_color = "#cdd6f4"   # Catppuccin Mocha "text"; applied to every block w/o its own color
+separator_block_width = 0   # extra px gap after each block; 0 = the layout's separators carry all spacing (bash look)
+click_events = true         # emit click_events:true so sway forwards stdin clicks
+
+[icons]
+pack = "nerd"               # nerd | emoji | unicode | none | <custom pack from packs/>
+# Override individual glyphs on top of the selected pack:
+[icons.overrides]
+# cpu = "CPU "
+
+# Color palette. `source = "static"` uses the literals below; `source = "pywal"`
+# fills any *unset* color from ~/.cache/wal/colors.json (special.foreground →
+# default, color1 → urgent, color3 → warn, color2 → good, color5 → mute). An
+# explicit key here always wins over pywal. Resolved once at startup.
+[colors]
+source = "static"           # "static" | "pywal"
+default = "#cdd6f4"         # base text color (overrides [bar].default_color when set)
+urgent  = "#f38ba8"         # critical battery / temperature
+warn    = "#f9e2af"         # weak wifi / low battery
+good    = "#a6e3a1"         # reserved
+mute    = "#fab387"         # muted volume
+
+# Click actions: key = module name (as written in [bar].layout); value = a table
+# of "button number" → shell command. Buttons: 1=left 2=middle 3=right 4=wheel-up
+# 5=wheel-down. "*" matches any button not listed. Commands run via `sh -c`, so
+# pipes, $vars and quotes work. Fire-and-forget (reaped, no zombies). Cost: zero
+# unless you actually click.
+[click_actions]
+vol = { 1 = "pamixer -t", 4 = "pamixer -i 5", 5 = "pamixer -d 5" }
+bri = { 4 = "brightnessctl set 5%+", 5 = "brightnessctl set 5%-" }
+date = { 1 = "swaymsg exec 'rofi -show calendar'" }
+net  = { 1 = "swaymsg exec rofi-network-manager" }
+bt   = { 1 = "swaymsg exec rofi-bluetooth" }
+cpu  = { 1 = "swaymsg exec '$term -e btop'" }
+mem  = { 1 = "swaymsg exec '$term -e btop'" }
+lang = { 1 = "swaymsg input '*' xkb_switch_pattern next" }
+packages = { 1 = "swaymsg exec '$term -e paru -Syu'" }
+vpn  = { 1 = "swaymsg exec '$term -e zerotier-cli info'" }
+mpris = { 1 = "playerctl play-pause", 3 = "playerctl next", 2 = "playerctl previous" }
+
+# Per-module tuning. Which modules run is decided by the {name} placeholders in
+# [bar].layout above — a module not referenced there is neither spawned nor shown.
+[modules]
+
+[modules.lang]
+shorten = 2                 # take first N chars of the layout name, uppercased
+fallback = "KB"             # shown when sway has no layout info
+interval_ms = 1000          # sway emits NO event on xkb layout change, so the
+                            # block re-queries get_inputs this often. Raise to
+                            # cut IPC traffic (clamped ≥250 ms).
+
+[modules.net]
+interval_ms = 3000          # how often to refresh wifi SSID/signal (iw fork)
+signal = "percent"          # "percent" | "dbm"
+interfaces = ["wifi", "lan"] # which links to show: ["wifi"], ["lan"], or both (every connected physical NIC)
+show_ip = true              # append IPv4
+show_rate = true            # append rx/tx throughput from /proc/net/dev
+rate_threshold_kb = 1       # below this, show "0B/s" instead of flickering decimals
+
+[modules.bluetooth]
+interval_ms = 5000          # only used by the bluetoothctl fallback backend
+backend = "dbus"            # "dbus" (event-driven, 0 forks) | "bluetoothctl" (throttled poll)
+
+[modules.volume]
+interval_ms = 2000
+timeout_ms = 800            # kill pamixer if it hangs
+
+[modules.brightness]
+interval_ms = 2000
+device = "auto"             # "auto" (first /sys/class/backlight/*) or a backlight dir name
+
+[modules.cpu]
+interval_ms = 1000         # Δ-sampling window for /proc/stat
+icon = ""
+
+[modules.mem]
+interval_ms = 2000
+format = "used"             # "used" | "used_total"
+icon = ""
+
+[modules.temp]
+interval_ms = 2000
+zone = "auto"               # "auto" (first /sys/class/thermal/thermal_zone*) or an absolute path
+icon = ""
+critical = 75               # °C above which the block turns urgent/red
+
+[modules.battery]
+interval_ms = 5000
+device = "auto"             # "auto" (first BAT*) or "BAT0"/"BAT1"/...
+show_time = false           # append estimated time remaining (zero-fork sysfs)
+time_format = "auto"        # "auto" (2h15 / 45m) | "h:m" (always H:MM)
+warn = 30                   # % at which a discharging battery turns warn-yellow
+crit = 15                   # % at which a discharging battery turns urgent/red
+
+[modules.disk]
+interval_ms = 10000
+mounts = ["/", "/home"]     # statvfs each; missing mounts are skipped silently
+
+[modules.load]
+interval_ms = 2000          # /proc/loadavg (1-min average) + uptime
+
+[modules.date]
+interval_ms = 1000
+# `time` crate format items (compile-time-checked where used). See:
+# https://time-rs.github.io/book/api/format-description
+format = "[hour]:[minute] | [day] [month repr:long]"
+locale = "en"              # "en" (time crate default) | "ru" (Russian genitive months: "26 июня")
+
+[modules.packages]
+interval_ms = 1800000      # fork `command` at most this often (30 min default)
+timeout_ms = 60000         # kill it if it hangs (a slow DB sync won't freeze the bar)
+command = "checkupdates"   # any stdout-line-counting helper (pacman-contrib)
+hide_when_zero = true      # hide the block when there are no pending updates
+
+[modules.vpn]
+interval_ms = 2000         # zero-fork: reads /sys/class/net/<dev>/operstate
+patterns = ["zt*", "wg*", "tun*", "tap*"]  # interface name globs that count as VPN
+show_when_off = false      # show an explicit "Off" block when no VPN is up
+
+[modules.mpris]
+max_len = 24               # truncate "artist - title" to N chars (0 = no limit, … appended)
+format = "{artist} - {title}"  # {artist} / {title} placeholders; bare title if no artist
+show_when_stopped = false  # show an idle icon when a player exists but is paused/stopped
