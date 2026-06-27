@@ -52,11 +52,11 @@ fn battery_block(cfg: &Config, icons: &Icons) -> Option<Block> {
         }
     };
     let mut text = format!("{pct}%");
-    if cfg.modules.battery.show_time {
-        if let Some(t) = time_remaining(&dir, charging) {
-            text.push(' ');
-            text.push_str(&format_time(t, cfg.modules.battery.time_format));
-        }
+    if cfg.modules.battery.show_time
+        && let Some(t) = time_remaining(&dir, charging)
+    {
+        text.push(' ');
+        text.push_str(&format_time(t, cfg.modules.battery.time_format));
     }
     let mut block = Block::icon_text(icon, &text);
     // Warn/crit only while discharging — a charging battery is recovering.

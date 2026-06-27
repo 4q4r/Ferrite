@@ -2,7 +2,7 @@
 name = "ferrite"
 version = "0.1.0"
 edition = "2024"
-rust-version = "1.85"
+rust-version = "1.88"
 description = "A magnetically attractive sway status bar — low-CPU, configurable, written in Rust"
 license = "MIT"
 readme = "README.md"
@@ -14,14 +14,14 @@ name = "ferrite"
 path = "src/main.rs"
 
 [dependencies]
-swayipc = "4.0"
-zbus = { version = "5.16", default-features = false, features = ["blocking-api", "async-io"] }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-toml = "1.1"
-time = { version = "0.3.51", features = ["local-offset", "formatting", "parsing"] }
-wait-timeout = "0.2"
-libc = "0.2"
+swayipc = "^4.0.0"
+zbus = { version = "^5.16.0", default-features = false, features = ["blocking-api", "async-io"] }
+serde = { version = "^1.0.228", features = ["derive"] }
+serde_json = "^1.0.150"
+toml = "^1.1.2"
+time = { version = "^0.3.51", features = ["local-offset", "formatting", "parsing"] }
+wait-timeout = "^0.2.1"
+libc = "^0.2.186"
 
 [profile.release]
 lto = true
