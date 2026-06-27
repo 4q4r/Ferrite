@@ -89,10 +89,10 @@ fn snapshot(conn: &Connection, icons: &Icons) -> Option<Block> {
     for ifaces in objects.values() {
         if let Some(adapter) = ifaces.get("org.bluez.Adapter1") {
             has_adapter = true;
-            if let Some(v) = adapter.get("Powered") {
-                if bool::try_from(v).unwrap_or(false) {
-                    powered = true;
-                }
+            if let Some(v) = adapter.get("Powered")
+                && bool::try_from(v).unwrap_or(false)
+            {
+                powered = true;
             }
         }
         if let Some(device) = ifaces.get("org.bluez.Device1") {

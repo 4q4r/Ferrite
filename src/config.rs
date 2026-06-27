@@ -704,10 +704,10 @@ const fn default_bat_crit() -> i64 {
 
 /// `~/.config/ferrite` (honoring `$XDG_CONFIG_HOME`).
 pub fn config_dir() -> PathBuf {
-    if let Ok(xdg) = std::env::var("XDG_CONFIG_HOME") {
-        if !xdg.is_empty() {
-            return PathBuf::from(xdg).join("ferrite");
-        }
+    if let Ok(xdg) = std::env::var("XDG_CONFIG_HOME")
+        && !xdg.is_empty()
+    {
+        return PathBuf::from(xdg).join("ferrite");
     }
     let home = std::env::var("HOME").unwrap_or_else(|_| "/tmp".to_owned());
     PathBuf::from(home).join(".config").join("ferrite")

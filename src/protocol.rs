@@ -50,10 +50,10 @@ pub fn build_blocks(tokens: &[Token], map: &HashMap<String, Block>, cfg: &Config
             Token::Sep(s) => pending_sep = Some(s.clone()),
             Token::Module(name) => {
                 if let Some(mut b) = map.get(name).cloned() {
-                    if let Some(s) = pending_sep.take() {
-                        if !s.is_empty() {
-                            out.push(Block::separator(s));
-                        }
+                    if let Some(s) = pending_sep.take()
+                        && !s.is_empty()
+                    {
+                        out.push(Block::separator(s));
                     }
                     // Inject the layout name when the module didn't set its own,
                     // so every block is click-routable via `[click_actions.<name>]`.

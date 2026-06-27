@@ -22,10 +22,10 @@ const STATIC_MUTE: &str = "#fab387";
 
 /// `~/.cache/wal/colors.json` (honoring `$XDG_CACHE_HOME`).
 fn wal_path() -> PathBuf {
-    if let Ok(xdg) = std::env::var("XDG_CACHE_HOME") {
-        if !xdg.is_empty() {
-            return PathBuf::from(xdg).join("wal").join("colors.json");
-        }
+    if let Ok(xdg) = std::env::var("XDG_CACHE_HOME")
+        && !xdg.is_empty()
+    {
+        return PathBuf::from(xdg).join("wal").join("colors.json");
     }
     let home = std::env::var("HOME").unwrap_or_else(|_| "/tmp".to_owned());
     PathBuf::from(home)

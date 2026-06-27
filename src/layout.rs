@@ -67,10 +67,10 @@ pub fn module_names(tokens: &[Token]) -> Vec<String> {
     let mut seen = std::collections::HashSet::new();
     let mut out = Vec::new();
     for token in tokens {
-        if let Token::Module(name) = token {
-            if seen.insert(name.clone()) {
-                out.push(name.clone());
-            }
+        if let Token::Module(name) = token
+            && seen.insert(name.clone())
+        {
+            out.push(name.clone());
         }
     }
     out
